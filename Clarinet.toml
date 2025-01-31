@@ -8,6 +8,10 @@ requirements = []
 path = "contracts/asset-registry.clar"
 depends_on = []
 
+[contracts.sync-manager]
+path = "contracts/sync-manager.clar"
+depends_on = []
+
 [repl]
 costs_version = 2
 parser_version = 2
