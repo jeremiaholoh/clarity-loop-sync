@@ -8,6 +8,10 @@ requirements = []
 path = "contracts/asset-registry.clar"
 depends_on = []
 
+[contracts.swap-engine]
+path = "contracts/swap-engine.clar"
+depends_on = []
+
 [contracts.sync-manager]
 path = "contracts/sync-manager.clar"
 depends_on = []
