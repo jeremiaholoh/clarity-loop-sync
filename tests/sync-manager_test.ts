@@ -18,3 +18,20 @@ Clarinet.test({
     assertEquals(block.receipts[0].result, '(ok true)');
   },
 });
+
+Clarinet.test({
+  name: "Ensure unauthorized verify-sync fails",
+  async fn(chain: Chain, accounts: Map<string, Account>) {
+    const deployer = accounts.get("deployer")!;
+    const wallet1 = accounts.get("wallet_1")!;
+    
+    let block = chain.mineBlock([
+      Tx.contractCall("sync-manager", "verify-sync",
+        [types.principal(deployer.address)],
+        wallet1.address
+      )
+    ]);
+    
+    assertEquals(block.receipts[0].result, '(err u100)');
+  },
+});
