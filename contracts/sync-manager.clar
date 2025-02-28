@@ -3,6 +3,7 @@
 ;; Constants
 (define-constant err-unauthorized (err u100))
 (define-constant err-invalid-state (err u101))
+(define-constant err-not-found (err u102))
 
 ;; Maps
 (define-map sync-states
@@ -28,15 +29,17 @@
 )
 
 (define-public (verify-sync (account principal))
-  (let
-    ((current-state (unwrap! (map-get? sync-states {account: account}) err-invalid-state)))
+  (begin
     (asserts! (is-authorized account) err-unauthorized)
-    (map-set sync-states
-      { account: account }
-      {
-        last-sync: (get last-sync current-state),
-        verified: true
-      }
+    (match (map-get? sync-states {account: account})
+      current-state (map-set sync-states
+        { account: account }
+        {
+          last-sync: (get last-sync current-state),
+          verified: true
+        }
+      )
+      err-not-found
     )
     (ok true)
   )
